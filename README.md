@@ -85,7 +85,7 @@ module.exports = nerdValidator;
 ```
 2. Use it like you would any middleware:
 ```js
-// server,js
+// server.js
 const express = require('express');
 const nerdValidator = require('./path/to/nerdValidator.js');
 

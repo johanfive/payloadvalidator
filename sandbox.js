@@ -1,4 +1,4 @@
-const { type, createExpressValidator: createValidator } = require('.');
+const { type, createExpressValidator: createValidator } = require('./src');
 
 const personValidator = createValidator(type.shape({
   firstName: type.string.isRequired,
