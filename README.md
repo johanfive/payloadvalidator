@@ -147,7 +147,10 @@ type.array.isRequired
 ```
 Validate the received value is an array of elements of a specific type:
 ```js
-type.arrayOf(type.string)
+// [ '',, null]
+type.arrayOf(type.string) // allow null and undefined values
+// [ '', '']
+type.arrayOf(type.string.isRequired) // strictly strings
 ```
 Complex arrays:
 ```js

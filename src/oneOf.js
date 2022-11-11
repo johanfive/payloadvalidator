@@ -1,5 +1,6 @@
 const { jsonType, errorMsg } = require('./constants');
 const deriveMeaningfulData = require('./deriveMeaningfulData');
+const exists = require('./exists');
 const getFinalizer = require('./getFinalizer');
 const getPreciseType = require('./getPreciseType');
 const makeRequirable = require('./makeRequirable');
@@ -22,10 +23,9 @@ const oneOf = (typeDefinitions) => {
       if (getPreciseType(validator) !== 'function') {
         throw new Error(errorMsg.oneOf.badConfig);
       }
+      expected.push(validator.type);
       const e = validator(receivedValue);
-      if (e) {
-        expected.push(validator.type);
-      } else {
+      if (!e && !(isRequired && !exists(receivedValue))) {
         return null;
       }
     }

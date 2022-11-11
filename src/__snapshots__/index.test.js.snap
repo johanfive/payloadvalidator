@@ -2,6 +2,8 @@
 
 exports[`Library throws errors when type.arrayOf is called with a boolean 1`] = `"Unclear configuration: try "type.arrayOf(type.boolean)" instead"`;
 
+exports[`Library throws errors when type.arrayOf is called with a null 1`] = `"Missing configuration parameters for type.arrayOf()"`;
+
 exports[`Library throws errors when type.arrayOf is called with a number 1`] = `"Unclear configuration: try "type.arrayOf(type.number)" instead"`;
 
 exports[`Library throws errors when type.arrayOf is called with a string 1`] = `"Unclear configuration: try "type.arrayOf(type.string)" instead"`;
@@ -9,6 +11,8 @@ exports[`Library throws errors when type.arrayOf is called with a string 1`] = `
 exports[`Library throws errors when type.arrayOf is called with an array 1`] = `"Unclear configuration: try "type.arrayOf(type.arrayOf(type.string))" or "type.arrayOf(type.array)" instead"`;
 
 exports[`Library throws errors when type.arrayOf is called with an object 1`] = `"Unclear configuration: try "type.arrayOf(type.shape({}))" or "type.arrayOf(type.object)" instead"`;
+
+exports[`Library throws errors when type.arrayOf is called with nothing 1`] = `"Missing configuration parameters for type.arrayOf()"`;
 
 exports[`Library throws errors when type.oneOf has an element that is also a type.oneOf 1`] = `"Do not nest oneOf directly inside another oneOf"`;
 
