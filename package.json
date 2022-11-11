@@ -4,7 +4,7 @@
   "description": "Create middleware that will automatically respond with a 400 status code and a detailed error message if the request body does not match the expected type definitions.",
   "main": "src/index.js",
   "files": [
-    "src/**/*",
+    "src/**/*.js",
     "!src/**/*.test.js"
   ],
   "scripts": {
