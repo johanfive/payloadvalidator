@@ -8,13 +8,16 @@
     "!src/**/*.test.js"
   ],
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "testCoverage": "jest --coverage"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/johanfive/payloadvalidator.git"
   },
   "keywords": [
+    "types",
+    "validation",
     "JSON",
     "payload",
     "validator",

@@ -172,7 +172,7 @@ type.arrayOf(type.arrayOf(type.shape({
 type.oneOf([type.string, type.number])
 ```
 
-Complex array example:
+Complex array example with oneOf:
 ```js
 // [
 //   { "prop1": "val1" },
@@ -196,6 +196,9 @@ But if you must, there are ways...
 
 The library does not offer a `type.exact`. Instead of forcing the consumers of your API
 to provide an exact value, consider setting __defaults__ in your API code.
+
+The `single concern` of this library is a value's `type`, __not__ the value __itself__.
+It cannot help you validate that a value is either a 5 or an 8, solely that it is indeed a number.
 
 ## Advanced
 > I'm actually interested, but I don't use Express

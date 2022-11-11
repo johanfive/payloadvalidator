@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Library throws errors when type.arrayOf is called with a boolean 1`] = `"Unclear configuration: try "type.arrayOf(type.boolean)" instead"`;
+
+exports[`Library throws errors when type.arrayOf is called with a number 1`] = `"Unclear configuration: try "type.arrayOf(type.number)" instead"`;
+
+exports[`Library throws errors when type.arrayOf is called with a string 1`] = `"Unclear configuration: try "type.arrayOf(type.string)" instead"`;
+
+exports[`Library throws errors when type.arrayOf is called with an array 1`] = `"Unclear configuration: try "type.arrayOf(type.arrayOf(type.string))" or "type.arrayOf(type.array)" instead"`;
+
+exports[`Library throws errors when type.arrayOf is called with an object 1`] = `"Unclear configuration: try "type.arrayOf(type.shape({}))" or "type.arrayOf(type.object)" instead"`;
+
+exports[`Library throws errors when type.oneOf has an element that is also a type.oneOf 1`] = `"Do not nest oneOf directly inside another oneOf"`;
+
+exports[`Library throws errors when type.oneOf has an element that is not a typeDefinition 1`] = `"Unclear configuration: try something like "type.oneOf([ type.string, type.number ]) instead"`;
+
+exports[`Library throws errors when type.oneOf is called with an array of less than 2 elements 1`] = `"type.oneOf([ ... ]) needs at least 2 type definitions to work, otherwise just use a precise type definition such as "type.string" instead"`;
+
+exports[`Library throws errors when type.oneOf is not called with an array 1`] = `"Unclear configuration: try something like "type.oneOf([ type.string, type.number ]) instead"`;
+
+exports[`Library throws errors when type.shape has a property that is not a typeDefinition 1`] = `"Unclear configuration: try something like "type.shape({ prop: type.string }) instead"`;
+
+exports[`Library throws errors when type.shape is not called with an object literal 1`] = `"Unclear configuration: try something like "type.shape({ prop: type.string }) instead"`;

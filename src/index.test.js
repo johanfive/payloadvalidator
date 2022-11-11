@@ -469,3 +469,54 @@ describe('An Express payload validator is configured to expect', () => {
   // describe('arrayOf', () => {});
   // describe('oneOf', () => {});
 });
+
+describe('Library throws errors when', () => {
+  describe('type.shape', () => {
+    test('is not called with an object literal', () => {
+      expect(() => createExpressValidator(type.shape([]))).toThrowErrorMatchingSnapshot();
+    });
+    test('has a property that is not a typeDefinition', () => {
+      validator = createExpressValidator(type.shape({ should: 'kaboom' }));
+      req.body = { should: 'kaboom' };
+      expect(() => validator(req, res, next)).toThrowErrorMatchingSnapshot();
+    });
+  });
+  describe('type.oneOf', () => {
+    test('is not called with an array', () => {
+      expect(() => createExpressValidator(type.oneOf(type.string))).toThrowErrorMatchingSnapshot();
+    });
+    test('is called with an array of less than 2 elements', () => {
+      expect(() => createExpressValidator(type.oneOf([type.string]))).toThrowErrorMatchingSnapshot();
+    });
+    test('has an element that is not a typeDefinition', () => {
+      validator = createExpressValidator(type.oneOf(['should', 'kaboom' ]));
+      req.body = ['should', 'kaboom'];
+      expect(() => validator(req, res, next)).toThrowErrorMatchingSnapshot();
+    });
+    test('has an element that is also a type.oneOf', () => {
+      validator = createExpressValidator(type.oneOf([
+        type.string,
+        type.oneOf([type.string, type.number])
+      ]));
+      req.body = ['should', 'kaboom'];
+      expect(() => validator(req, res, next)).toThrowErrorMatchingSnapshot();
+    });
+  });
+  describe('type.arrayOf', () => {
+    test('is called with an object', () => {
+      expect(() => createExpressValidator(type.arrayOf({ kaboom: type.string }))).toThrowErrorMatchingSnapshot();
+    });
+    test('is called with an array', () => {
+      expect(() => createExpressValidator(type.arrayOf([type.string]))).toThrowErrorMatchingSnapshot();
+    });
+    test('is called with a string', () => {
+      expect(() => createExpressValidator(type.arrayOf('string'))).toThrowErrorMatchingSnapshot();
+    });
+    test('is called with a boolean', () => {
+      expect(() => createExpressValidator(type.arrayOf(true))).toThrowErrorMatchingSnapshot();
+    });
+    test('is called with a number', () => {
+      expect(() => createExpressValidator(type.arrayOf(5))).toThrowErrorMatchingSnapshot();
+    });
+  });
+});

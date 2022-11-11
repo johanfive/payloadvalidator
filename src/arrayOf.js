@@ -13,7 +13,7 @@ const arrayOf = (validator) => {
         errorMsg += 'shape({}))" or "type.arrayOf(type.object)" instead';
         break;
       case jsonType.ARRAY:
-        errorMsg += 'arrayOf(type.string))" or "type.array(type.array)" instead';
+        errorMsg += 'arrayOf(type.string))" or "type.arrayOf(type.array)" instead';
         break;
       case jsonType.STRING:
         errorMsg += 'string)" instead';
