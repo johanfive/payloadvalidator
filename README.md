@@ -52,8 +52,8 @@ What this library offers is a simple way to create complex validation logic on a
 in a Node.js app.
 It responds automatically to a `Bad request` with a `400` status code and **detailed** feedback.
 
-Most importantly, embracing *middleware* philosophy, it allows you to craft *route handlers*
-that *can safely assume* they will only ever be called with a *valid payload*.
+Most importantly, embracing *middleware* philosophy, it allows you to craft `route handlers`
+that `can safely assume` they will only ever be called with a `valid payload`.
 
 You can always call additional middleware to validate the incoming payload further if you need to.
 The advantage of using this library higher up the middleware stack, is that middleware functions
@@ -111,14 +111,12 @@ type.string
 type.string.isRequired
 ```
 ### type.shape vs type.object
-Validate the received value is an object literal of any shape:
+Validate the received value is an object literal of `any` shape:
 ```js
-// optional object
 type.object
-// required object
 type.object.isRequired
 ```
-Validate the received value is an object literal of a specific shape:
+Validate the received value is an object literal of a `specific` shape:
 ```js
 // optional object with required property "age" and optional property "isYoung"
 type.shape({
@@ -140,12 +138,12 @@ type.shape({
 ```
 
 ### type.arrayOf vs type.array
-Validate the received value is an array of elements of any type:
+Validate the received value is an array of elements of `any` type:
 ```js
 type.array
 type.array.isRequired
 ```
-Validate the received value is an array of elements of a specific type:
+Validate the received value is an array of elements of a `specific` type:
 ```js
 // [ '',, null]
 type.arrayOf(type.string) // allow null and undefined values
