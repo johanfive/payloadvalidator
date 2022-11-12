@@ -8,7 +8,7 @@ const deriveMeaningfulData = (payload, prop) => {
   return {
     receivedValue,
     receivedValueType,
-    errorKey,
+    errorKey
   };
 };
 

@@ -24,7 +24,7 @@ const arrayOf = (validator) => {
       case jsonType.NUMBER:
         errorMsg += 'number)" instead';
         break;
-    
+
       default:
         errorMsg = 'Missing configuration parameters for type.arrayOf()';
         break;

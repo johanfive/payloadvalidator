@@ -10,11 +10,11 @@ const createExpressValidator = (typeDefinitions) => (req, res, next) => createFr
   validate: typeDefinitions,
   payload: req.body,
   handleBadRequest: (error) => res.status(error.code).send(error),
-  handleValidRequest: next,
+  handleValidRequest: next
 });
 
 module.exports = {
   type,
   createExpressValidator,
-  createFrameworkValidator,
+  createFrameworkValidator
 };

@@ -25,6 +25,7 @@ const next = () => console.log('next is called');
 const req = {
   body: {
     lastName: 5,
+    // eslint-disable-next-line no-sparse-arrays
     arr: [[, 5]],
     nested: { lool: 55 },
     oneOf3: { lool: '5' }

@@ -6,7 +6,7 @@ const getFinalizer = (expectedType, isRequired, errorKey) => ({
 }) => {
   const error = {
     key: errorKey,
-    message: `expected ${expectedType}, got ${receivedValueType}`,
+    message: `expected ${expectedType}, got ${receivedValueType}`
   };
   if (exists(receivedValue)) {
     error.type = 'invalid';

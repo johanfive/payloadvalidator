@@ -500,6 +500,7 @@ describe('An Express payload validator is configured to expect', () => {
           boolean: 0,
           array: {},
           object: [],
+          // eslint-disable-next-line no-sparse-arrays
           arrayOf: [0, false,, null],
           oneOf: false,
           shape: { string: [] }
@@ -515,41 +516,41 @@ describe('An Express payload validator is configured to expect', () => {
           },
           array: {
             type: 'invalid',
-            message: 'expected array, got object',
+            message: 'expected array, got object'
           },
           arrayOf: [
             {
               index: 0,
               type: 'invalid',
-              message: 'expected string, got number',
+              message: 'expected string, got number'
             },
             {
               index: 1,
               type: 'invalid',
-              message: 'expected string, got boolean',
+              message: 'expected string, got boolean'
             },
             {
               index: 2,
               type: 'required',
-              message: 'expected string, got undefined',
+              message: 'expected string, got undefined'
             },
             {
               index: 3,
               type: 'required',
-              message: 'expected string, got null',
+              message: 'expected string, got null'
             }
           ],
           boolean: {
             type: 'invalid',
-            message: 'expected boolean, got number',
+            message: 'expected boolean, got number'
           },
           object: {
             type: 'invalid',
-            message: 'expected object, got array',
+            message: 'expected object, got array'
           },
           oneOf: {
             type: 'invalid',
-            message: 'expected string || number, got boolean',
+            message: 'expected string || number, got boolean'
           },
           shape: {
             string: {
@@ -661,6 +662,7 @@ describe('An Express payload validator is configured to expect', () => {
     });
     describe('The next handler should be called when the incoming payload is', () => {
       test('an array of elements that match the type definition', () => {
+        // eslint-disable-next-line no-sparse-arrays
         req.body = ['',, null];
         confirmHappyPath();
       });
@@ -689,18 +691,18 @@ describe('An Express payload validator is configured to expect', () => {
           {
             index: 1,
             message: 'expected string, got boolean',
-            type: 'invalid',
+            type: 'invalid'
           },
           {
             index: 2,
             message: 'expected string, got object',
-            type: 'invalid',
+            type: 'invalid'
           },
           {
             index: 3,
             message: 'expected string, got array',
-            type: 'invalid',
-          },
+            type: 'invalid'
+          }
         ];
         confirmBomb();
       });
@@ -742,18 +744,19 @@ describe('An Express payload validator is configured to expect', () => {
     });
     describe('A "400 - Bad Request" response should be sent when the incoming payload is', () => {
       test('an array of elements that do not match the type definition', () => {
+        // eslint-disable-next-line no-sparse-arrays
         req.body = ['',, null];
         expectedRes.errors.payload = [
           {
             index: 1,
             type: 'required',
-            message: 'expected string, got undefined',
-                  },
+            message: 'expected string, got undefined'
+          },
           {
             index: 2,
             type: 'required',
-            message: 'expected string, got null',
-          },
+            message: 'expected string, got null'
+          }
         ];
         confirmBomb();
       });
