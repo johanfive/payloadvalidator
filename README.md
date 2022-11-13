@@ -1,4 +1,4 @@
-# payloadValidator
+# typemania
 
 > Oh here we go... yeah buddy, the world needed another validation library...
 
@@ -67,7 +67,7 @@ Here is how it would look like if you built your API with Express:
 1. Create a custom validator:
 ```js
 // nerdValidator.js
-const { createExpressValidator: createValidator, type } = require('payloadvalidator');
+const { createExpressValidator: createValidator, type } = require('typemania');
 
 const nerdValidator = createValidator(type.shape({
   firstName: type.string.isRequired,
@@ -101,7 +101,7 @@ Largely inspired by the `Proptypes` library from the `React` ecosystem...
 just, reduced to the bare minimum to describe a `JSON` payload.
 
 ```js
-const { type } = require('payloadvalidator');
+const { type } = require('typemania');
 ```
 ### type.string (and any other JSON primitives)
 ```js
@@ -221,7 +221,7 @@ const createExpressValidator = (typeDefinitions) => (req, res, next) => createFr
 
 This means to make `createMyOwnValidator` you will write something like this:
 ```js
-const { createFrameworkValidator } = require('payloadvalidator');
+const { createFrameworkValidator } = require('typemania');
 
 /**
  * @param {*} typeDefinitions ex: type.shape({ firstName: type.string }).isRequired

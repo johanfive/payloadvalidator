@@ -1,5 +1,5 @@
 {
-  "name": "payloadvalidator",
+  "name": "typemania",
   "version": "1.0.0",
   "description": "Create middleware that will automatically respond with a 400 status code and a detailed error message if the request body does not match the expected type definitions.",
   "main": "src/index.js",
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/johanfive/payloadvalidator.git"
+    "url": "git+https://github.com/johanfive/typemania.git"
   },
   "keywords": [
     "types",
@@ -28,9 +28,9 @@
   "author": "johanFive",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/johanfive/payloadvalidator/issues"
+    "url": "https://github.com/johanfive/typemania/issues"
   },
-  "homepage": "https://github.com/johanfive/payloadvalidator#readme",
+  "homepage": "https://github.com/johanfive/typemania#readme",
   "devDependencies": {
     "eslint": "^8.27.0",
     "jest": "^29.3.1"

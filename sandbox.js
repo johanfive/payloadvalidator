@@ -6,9 +6,9 @@ const personValidator = createValidator(type.shape({
   arr: type.arrayOf(type.arrayOf(type.string.isRequired).isRequired).isRequired,
   nested: type.shape({
     reqStr: type.string.isRequired,
-    optStr: type.string,
+    optStr: type.string
   }),
-  oneOf3: type.oneOf([type.string, type.number, type.shape({ lol: type.string.isRequired })]),
+  oneOf3: type.oneOf([type.string, type.number, type.shape({ lol: type.string.isRequired })])
 }));
 
 
@@ -18,7 +18,7 @@ const res = {
     console.log(code);
     return { send };
   },
-  send,  
+  send
 };
 const next = () => console.log('next is called');
 
