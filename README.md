@@ -1,9 +1,5 @@
 # typemania
 
-> Oh here we go... yeah buddy, the world needed another validation library...
-
-Hear me out.
-
 There are many libraries helping you validate that an email is an email
 and a postal code is a postal code. That's great, we need those too.
 
@@ -15,27 +11,38 @@ But first an foremost, as API creators, we want to provide the __consumers of ou
   "code": 400,
   "message": "Bad request",
   "errors": {
-    "payload": {
+    "receivedPayload": {
       "firstName": {
-        "type": "required",
+        "type": "missing",
         "message": "expected string, got undefined"
       },
       "lastName": {
         "type": "invalid",
         "message": "expected string, got number"
       },
-      "nested": {
-        "isFun": {
-          "type": "required",
-          "message": "expected boolean, got undefined"
+      "devices": [
+        {
+          "index": 0,
+          "type": "missing",
+          "message": "expected object, got undefined"
         },
-        "hobbies": [
-          {
-            "index": 5,
+        {
+          "index": 2,
+          "notificationPriority": {
             "type": "invalid",
-            "message": "expected string || object, got number"
+            "message": "expected number, got string"
           }
-        ],
+        }
+      ],
+      "skills": {
+        "canCook": {
+          "type": "missing",
+          "message": "expected boolean, got undefined"
+        }
+      },
+      "weakApi": {
+        "type": "invalid",
+        "message": "expected string || number || shape, got object"
       }
     }
   }
@@ -59,17 +66,17 @@ You can always call additional middleware to validate the incoming payload furth
 The advantage of using this library higher up the middleware stack, is that middleware functions
 below it can focus on more granular validation details,
 without having to worry about the presence of a value or its type.
-(ie: your email validator no longer needs to check if a value is a non-null string,
+(ie: your email validator no longer needs to check if a value is a non-empty string,
 it can strictly focus on the more relevant logic that makes an email an email)
 
 Here is how it would look like if you built your API with Express:
 
 1. Create a custom validator:
 ```js
-// nerdValidator.js
-const { createExpressValidator: createValidator, type } = require('typemania');
+// foodieValidator.js
+const { createValidator, type } = require('typemania').express;
 
-const nerdValidator = createValidator(type.shape({
+const foodieValidator = createValidator(type.shape({
   firstName: type.string.isRequired,
   age: type.number,
   visitedRestaurants: type.arrayOf(type.shape({
@@ -81,16 +88,16 @@ const nerdValidator = createValidator(type.shape({
   noIdea: type.arrayOf(type.oneOf([ type.string, type.number ]))
 }));
 
-module.exports = nerdValidator;
+module.exports = foodieValidator;
 ```
 2. Use it like you would any middleware:
 ```js
 // server.js
 const express = require('express');
-const nerdValidator = require('./path/to/nerdValidator.js');
+const foodieValidator = require('./path/to/foodieValidator.js');
 
 const router = express.Router();
-router.post('/foodnerds', nerdValidator, (req, res) => {
+router.post('/foodnerds', foodieValidator, (req, res) => {
   // fearless destructuring happens here
   res.send('yum');
 });
@@ -219,7 +226,7 @@ const createExpressValidator = (typeDefinitions) => (req, res, next) => createFr
 });
 ```
 
-This means to make `createMyOwnValidator` you will write something like this:
+This means to create your own `makeValidator` you will write something like this:
 ```js
 const { createFrameworkValidator } = require('typemania');
 
@@ -227,7 +234,7 @@ const { createFrameworkValidator } = require('typemania');
  * @param {*} typeDefinitions ex: type.shape({ firstName: type.string }).isRequired
  * @returns {Function} A middleware function
  */
-const createMyOwnValidator = (typeDefinitions) => {
+const makeValidator = (typeDefinitions) => {
   // here "todo" is a placeholder
   // for whatever the signature of a middleware function is
   // in the framework that you work with
@@ -244,13 +251,13 @@ const createMyOwnValidator = (typeDefinitions) => {
   };
 };
 
-module.exports = createMyOwnValidator;
+module.exports = makeValidator;
 ```
 Which you would use like:
 ```js
-const createMyOwnValidator = require('./path/to/createMyOwnValidator.js');
+const makeValidator = require('./path/to/makeValidator.js');
 
-const myThingValidator = createMyOwnValidator(type.shape({
+const myThingValidator = makeValidator(type.shape({
   myProp1: type.string,
   myProp2: type.number,
   etc: type.arrayOf(type.object)

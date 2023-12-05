@@ -1,4 +1,5 @@
-const { createExpressValidator, type } = require('.');
+const { createValidator, type } = require('.').express;
+const { receivedPayloadKey, errorTypes } = require('./constants');
 
 let req;
 let next;
@@ -17,8 +18,8 @@ beforeEach(() => {
   expectedRes = {
     code: 400,
     errors: {
-      payload: {
-        type: 'invalid',
+      [receivedPayloadKey]: {
+        type: errorTypes.INVALID,
         message: ''
       }
     },
@@ -43,7 +44,7 @@ const confirmBomb = () => {
 describe('An Express payload validator is configured to expect', () => {
   describe('an optional string.', () => {
     beforeEach(() => {
-      validator = createExpressValidator(type.string);
+      validator = createValidator(type.string);
     });
     describe('The next handler should be called when the incoming payload is', () => {
       test('a string', () => {
@@ -62,28 +63,28 @@ describe('An Express payload validator is configured to expect', () => {
     describe('A "400 - Bad Request" response should be sent when the incoming payload is', () => {
       test('a number', () => {
         req.body = 0;
-        expectedRes.errors.payload.message = 'expected string, got number';
+        expectedRes.errors[receivedPayloadKey].message = 'expected string, got number';
         confirmBomb();
       });
       test('a boolean', () => {
         req.body = false;
-        expectedRes.errors.payload.message = 'expected string, got boolean';
+        expectedRes.errors[receivedPayloadKey].message = 'expected string, got boolean';
         confirmBomb();
       });
       test('an object', () => {
-        expectedRes.errors.payload.message = 'expected string, got object';
+        expectedRes.errors[receivedPayloadKey].message = 'expected string, got object';
         confirmBomb();
       });
       test('an array', () => {
         req.body = [];
-        expectedRes.errors.payload.message = 'expected string, got array';
+        expectedRes.errors[receivedPayloadKey].message = 'expected string, got array';
         confirmBomb();
       });
     });
   });
   describe('a required string.', () => {
     beforeEach(() => {
-      validator = createExpressValidator(type.string.isRequired);
+      validator = createValidator(type.string.isRequired);
     });
     describe('The next handler should be called when the incoming payload is', () => {
       test('a string', () => {
@@ -94,33 +95,33 @@ describe('An Express payload validator is configured to expect', () => {
     describe('A "400 - Bad Request" response should be sent when the incoming payload is', () => {
       test('undefined', () => {
         req = {};
-        expectedRes.errors.payload.type = 'required';
-        expectedRes.errors.payload.message = 'expected string, got undefined';
+        expectedRes.errors[receivedPayloadKey].type = errorTypes.MISSING;
+        expectedRes.errors[receivedPayloadKey].message = 'expected string, got undefined';
         confirmBomb();
       });
       test('null', () => {
         req.body = null;
-        expectedRes.errors.payload.type = 'required';
-        expectedRes.errors.payload.message = 'expected string, got null';
+        expectedRes.errors[receivedPayloadKey].type = errorTypes.MISSING;
+        expectedRes.errors[receivedPayloadKey].message = 'expected string, got null';
         confirmBomb();
       });
       test('a number', () => {
         req.body = 0;
-        expectedRes.errors.payload.message = 'expected string, got number';
+        expectedRes.errors[receivedPayloadKey].message = 'expected string, got number';
         confirmBomb();
       });
       test('a boolean', () => {
         req.body = false;
-        expectedRes.errors.payload.message = 'expected string, got boolean';
+        expectedRes.errors[receivedPayloadKey].message = 'expected string, got boolean';
         confirmBomb();
       });
       test('an object', () => {
-        expectedRes.errors.payload.message = 'expected string, got object';
+        expectedRes.errors[receivedPayloadKey].message = 'expected string, got object';
         confirmBomb();
       });
       test('an array', () => {
         req.body = [];
-        expectedRes.errors.payload.message = 'expected string, got array';
+        expectedRes.errors[receivedPayloadKey].message = 'expected string, got array';
         confirmBomb();
       });
     });
@@ -128,7 +129,7 @@ describe('An Express payload validator is configured to expect', () => {
 
   describe('an optional number.', () => {
     beforeEach(() => {
-      validator = createExpressValidator(type.number);
+      validator = createValidator(type.number);
     });
     describe('The next handler should be called when the incoming payload is', () => {
       test('a number', () => {
@@ -147,28 +148,28 @@ describe('An Express payload validator is configured to expect', () => {
     describe('A "400 - Bad Request" response should be sent when the incoming payload is', () => {
       test('a string', () => {
         req.body = '';
-        expectedRes.errors.payload.message = 'expected number, got string';
+        expectedRes.errors[receivedPayloadKey].message = 'expected number, got string';
         confirmBomb();
       });
       test('a boolean', () => {
         req.body = false;
-        expectedRes.errors.payload.message = 'expected number, got boolean';
+        expectedRes.errors[receivedPayloadKey].message = 'expected number, got boolean';
         confirmBomb();
       });
       test('an object', () => {
-        expectedRes.errors.payload.message = 'expected number, got object';
+        expectedRes.errors[receivedPayloadKey].message = 'expected number, got object';
         confirmBomb();
       });
       test('an array', () => {
         req.body = [];
-        expectedRes.errors.payload.message = 'expected number, got array';
+        expectedRes.errors[receivedPayloadKey].message = 'expected number, got array';
         confirmBomb();
       });
     });
   });
   describe('a required number.', () => {
     beforeEach(() => {
-      validator = createExpressValidator(type.number.isRequired);
+      validator = createValidator(type.number.isRequired);
     });
     describe('The next handler should be called when the incoming payload is', () => {
       test('a number', () => {
@@ -179,33 +180,33 @@ describe('An Express payload validator is configured to expect', () => {
     describe('A "400 - Bad Request" response should be sent when the incoming payload is', () => {
       test('undefined', () => {
         req = {};
-        expectedRes.errors.payload.type = 'required';
-        expectedRes.errors.payload.message = 'expected number, got undefined';
+        expectedRes.errors[receivedPayloadKey].type = errorTypes.MISSING;
+        expectedRes.errors[receivedPayloadKey].message = 'expected number, got undefined';
         confirmBomb();
       });
       test('null', () => {
         req.body = null;
-        expectedRes.errors.payload.type = 'required';
-        expectedRes.errors.payload.message = 'expected number, got null';
+        expectedRes.errors[receivedPayloadKey].type = errorTypes.MISSING;
+        expectedRes.errors[receivedPayloadKey].message = 'expected number, got null';
         confirmBomb();
       });
       test('a string', () => {
         req.body = '';
-        expectedRes.errors.payload.message = 'expected number, got string';
+        expectedRes.errors[receivedPayloadKey].message = 'expected number, got string';
         confirmBomb();
       });
       test('a boolean', () => {
         req.body = false;
-        expectedRes.errors.payload.message = 'expected number, got boolean';
+        expectedRes.errors[receivedPayloadKey].message = 'expected number, got boolean';
         confirmBomb();
       });
       test('an object', () => {
-        expectedRes.errors.payload.message = 'expected number, got object';
+        expectedRes.errors[receivedPayloadKey].message = 'expected number, got object';
         confirmBomb();
       });
       test('an array', () => {
         req.body = [];
-        expectedRes.errors.payload.message = 'expected number, got array';
+        expectedRes.errors[receivedPayloadKey].message = 'expected number, got array';
         confirmBomb();
       });
     });
@@ -213,7 +214,7 @@ describe('An Express payload validator is configured to expect', () => {
 
   describe('an optional boolean.', () => {
     beforeEach(() => {
-      validator = createExpressValidator(type.boolean);
+      validator = createValidator(type.boolean);
     });
     describe('The next handler should be called when the incoming payload is', () => {
       test('a boolean', () => {
@@ -232,28 +233,28 @@ describe('An Express payload validator is configured to expect', () => {
     describe('A "400 - Bad Request" response should be sent when the incoming payload is', () => {
       test('a string', () => {
         req.body = '';
-        expectedRes.errors.payload.message = 'expected boolean, got string';
+        expectedRes.errors[receivedPayloadKey].message = 'expected boolean, got string';
         confirmBomb();
       });
       test('a number', () => {
         req.body = 0;
-        expectedRes.errors.payload.message = 'expected boolean, got number';
+        expectedRes.errors[receivedPayloadKey].message = 'expected boolean, got number';
         confirmBomb();
       });
       test('an object', () => {
-        expectedRes.errors.payload.message = 'expected boolean, got object';
+        expectedRes.errors[receivedPayloadKey].message = 'expected boolean, got object';
         confirmBomb();
       });
       test('an array', () => {
         req.body = [];
-        expectedRes.errors.payload.message = 'expected boolean, got array';
+        expectedRes.errors[receivedPayloadKey].message = 'expected boolean, got array';
         confirmBomb();
       });
     });
   });
   describe('a required boolean.', () => {
     beforeEach(() => {
-      validator = createExpressValidator(type.boolean.isRequired);
+      validator = createValidator(type.boolean.isRequired);
     });
     describe('The next handler should be called when the incoming payload is', () => {
       test('a boolean', () => {
@@ -264,33 +265,33 @@ describe('An Express payload validator is configured to expect', () => {
     describe('A "400 - Bad Request" response should be sent when the incoming payload is', () => {
       test('undefined', () => {
         req = {};
-        expectedRes.errors.payload.type = 'required';
-        expectedRes.errors.payload.message = 'expected boolean, got undefined';
+        expectedRes.errors[receivedPayloadKey].type = errorTypes.MISSING;
+        expectedRes.errors[receivedPayloadKey].message = 'expected boolean, got undefined';
         confirmBomb();
       });
       test('null', () => {
         req.body = null;
-        expectedRes.errors.payload.type = 'required';
-        expectedRes.errors.payload.message = 'expected boolean, got null';
+        expectedRes.errors[receivedPayloadKey].type = errorTypes.MISSING;
+        expectedRes.errors[receivedPayloadKey].message = 'expected boolean, got null';
         confirmBomb();
       });
       test('a string', () => {
         req.body = '';
-        expectedRes.errors.payload.message = 'expected boolean, got string';
+        expectedRes.errors[receivedPayloadKey].message = 'expected boolean, got string';
         confirmBomb();
       });
       test('a number', () => {
         req.body = 0;
-        expectedRes.errors.payload.message = 'expected boolean, got number';
+        expectedRes.errors[receivedPayloadKey].message = 'expected boolean, got number';
         confirmBomb();
       });
       test('an object', () => {
-        expectedRes.errors.payload.message = 'expected boolean, got object';
+        expectedRes.errors[receivedPayloadKey].message = 'expected boolean, got object';
         confirmBomb();
       });
       test('an array', () => {
         req.body = [];
-        expectedRes.errors.payload.message = 'expected boolean, got array';
+        expectedRes.errors[receivedPayloadKey].message = 'expected boolean, got array';
         confirmBomb();
       });
     });
@@ -298,7 +299,7 @@ describe('An Express payload validator is configured to expect', () => {
 
   describe('an optional array.', () => {
     beforeEach(() => {
-      validator = createExpressValidator(type.array);
+      validator = createValidator(type.array);
     });
     describe('The next handler should be called when the incoming payload is', () => {
       test('an array', () => {
@@ -317,28 +318,28 @@ describe('An Express payload validator is configured to expect', () => {
     describe('A "400 - Bad Request" response should be sent when the incoming payload is', () => {
       test('a string', () => {
         req.body = '';
-        expectedRes.errors.payload.message = 'expected array, got string';
+        expectedRes.errors[receivedPayloadKey].message = 'expected array, got string';
         confirmBomb();
       });
       test('a number', () => {
         req.body = 0;
-        expectedRes.errors.payload.message = 'expected array, got number';
+        expectedRes.errors[receivedPayloadKey].message = 'expected array, got number';
         confirmBomb();
       });
       test('an object', () => {
-        expectedRes.errors.payload.message = 'expected array, got object';
+        expectedRes.errors[receivedPayloadKey].message = 'expected array, got object';
         confirmBomb();
       });
       test('a boolean', () => {
         req.body = false;
-        expectedRes.errors.payload.message = 'expected array, got boolean';
+        expectedRes.errors[receivedPayloadKey].message = 'expected array, got boolean';
         confirmBomb();
       });
     });
   });
   describe('a required array.', () => {
     beforeEach(() => {
-      validator = createExpressValidator(type.array.isRequired);
+      validator = createValidator(type.array.isRequired);
     });
     describe('The next handler should be called when the incoming payload is', () => {
       test('an array', () => {
@@ -349,33 +350,33 @@ describe('An Express payload validator is configured to expect', () => {
     describe('A "400 - Bad Request" response should be sent when the incoming payload is', () => {
       test('undefined', () => {
         req = {};
-        expectedRes.errors.payload.type = 'required';
-        expectedRes.errors.payload.message = 'expected array, got undefined';
+        expectedRes.errors[receivedPayloadKey].type = errorTypes.MISSING;
+        expectedRes.errors[receivedPayloadKey].message = 'expected array, got undefined';
         confirmBomb();
       });
       test('null', () => {
         req.body = null;
-        expectedRes.errors.payload.type = 'required';
-        expectedRes.errors.payload.message = 'expected array, got null';
+        expectedRes.errors[receivedPayloadKey].type = errorTypes.MISSING;
+        expectedRes.errors[receivedPayloadKey].message = 'expected array, got null';
         confirmBomb();
       });
       test('a string', () => {
         req.body = '';
-        expectedRes.errors.payload.message = 'expected array, got string';
+        expectedRes.errors[receivedPayloadKey].message = 'expected array, got string';
         confirmBomb();
       });
       test('a number', () => {
         req.body = 0;
-        expectedRes.errors.payload.message = 'expected array, got number';
+        expectedRes.errors[receivedPayloadKey].message = 'expected array, got number';
         confirmBomb();
       });
       test('an object', () => {
-        expectedRes.errors.payload.message = 'expected array, got object';
+        expectedRes.errors[receivedPayloadKey].message = 'expected array, got object';
         confirmBomb();
       });
       test('a boolean', () => {
         req.body = false;
-        expectedRes.errors.payload.message = 'expected array, got boolean';
+        expectedRes.errors[receivedPayloadKey].message = 'expected array, got boolean';
         confirmBomb();
       });
     });
@@ -383,7 +384,7 @@ describe('An Express payload validator is configured to expect', () => {
 
   describe('an optional object.', () => {
     beforeEach(() => {
-      validator = createExpressValidator(type.object);
+      validator = createValidator(type.object);
     });
     describe('The next handler should be called when the incoming payload is', () => {
       test('an object', () => {
@@ -401,29 +402,29 @@ describe('An Express payload validator is configured to expect', () => {
     describe('A "400 - Bad Request" response should be sent when the incoming payload is', () => {
       test('a string', () => {
         req.body = '';
-        expectedRes.errors.payload.message = 'expected object, got string';
+        expectedRes.errors[receivedPayloadKey].message = 'expected object, got string';
         confirmBomb();
       });
       test('a number', () => {
         req.body = 0;
-        expectedRes.errors.payload.message = 'expected object, got number';
+        expectedRes.errors[receivedPayloadKey].message = 'expected object, got number';
         confirmBomb();
       });
       test('an array', () => {
         req.body = [];
-        expectedRes.errors.payload.message = 'expected object, got array';
+        expectedRes.errors[receivedPayloadKey].message = 'expected object, got array';
         confirmBomb();
       });
       test('a boolean', () => {
         req.body = false;
-        expectedRes.errors.payload.message = 'expected object, got boolean';
+        expectedRes.errors[receivedPayloadKey].message = 'expected object, got boolean';
         confirmBomb();
       });
     });
   });
   describe('a required object.', () => {
     beforeEach(() => {
-      validator = createExpressValidator(type.object.isRequired);
+      validator = createValidator(type.object.isRequired);
     });
     describe('The next handler should be called when the incoming payload is', () => {
       test('an object', () => {
@@ -433,34 +434,34 @@ describe('An Express payload validator is configured to expect', () => {
     describe('A "400 - Bad Request" response should be sent when the incoming payload is', () => {
       test('undefined', () => {
         req = {};
-        expectedRes.errors.payload.type = 'required';
-        expectedRes.errors.payload.message = 'expected object, got undefined';
+        expectedRes.errors[receivedPayloadKey].type = errorTypes.MISSING;
+        expectedRes.errors[receivedPayloadKey].message = 'expected object, got undefined';
         confirmBomb();
       });
       test('null', () => {
         req.body = null;
-        expectedRes.errors.payload.type = 'required';
-        expectedRes.errors.payload.message = 'expected object, got null';
+        expectedRes.errors[receivedPayloadKey].type = errorTypes.MISSING;
+        expectedRes.errors[receivedPayloadKey].message = 'expected object, got null';
         confirmBomb();
       });
       test('a string', () => {
         req.body = '';
-        expectedRes.errors.payload.message = 'expected object, got string';
+        expectedRes.errors[receivedPayloadKey].message = 'expected object, got string';
         confirmBomb();
       });
       test('a number', () => {
         req.body = 0;
-        expectedRes.errors.payload.message = 'expected object, got number';
+        expectedRes.errors[receivedPayloadKey].message = 'expected object, got number';
         confirmBomb();
       });
       test('an array', () => {
         req.body = [];
-        expectedRes.errors.payload.message = 'expected object, got array';
+        expectedRes.errors[receivedPayloadKey].message = 'expected object, got array';
         confirmBomb();
       });
       test('a boolean', () => {
         req.body = false;
-        expectedRes.errors.payload.message = 'expected object, got boolean';
+        expectedRes.errors[receivedPayloadKey].message = 'expected object, got boolean';
         confirmBomb();
       });
     });
@@ -468,7 +469,7 @@ describe('An Express payload validator is configured to expect', () => {
 
   describe('an optional shape', () => {
     beforeEach(() => {
-      validator = createExpressValidator(type.shape({
+      validator = createValidator(type.shape({
         string: type.string.isRequired,
         number: type.number,
         boolean: type.boolean,
@@ -505,56 +506,56 @@ describe('An Express payload validator is configured to expect', () => {
           oneOf: false,
           shape: { string: [] }
         };
-        expectedRes.errors.payload = {
+        expectedRes.errors[receivedPayloadKey] = {
           string: {
-            type: 'required',
+            type: errorTypes.MISSING,
             message: 'expected string, got undefined'
           },
           number: {
-            type: 'invalid',
+            type: errorTypes.INVALID,
             message: 'expected number, got string'
           },
           array: {
-            type: 'invalid',
+            type: errorTypes.INVALID,
             message: 'expected array, got object'
           },
           arrayOf: [
             {
               index: 0,
-              type: 'invalid',
+              type: errorTypes.INVALID,
               message: 'expected string, got number'
             },
             {
               index: 1,
-              type: 'invalid',
+              type: errorTypes.INVALID,
               message: 'expected string, got boolean'
             },
             {
               index: 2,
-              type: 'required',
+              type: errorTypes.MISSING,
               message: 'expected string, got undefined'
             },
             {
               index: 3,
-              type: 'required',
+              type: errorTypes.MISSING,
               message: 'expected string, got null'
             }
           ],
           boolean: {
-            type: 'invalid',
+            type: errorTypes.INVALID,
             message: 'expected boolean, got number'
           },
           object: {
-            type: 'invalid',
+            type: errorTypes.INVALID,
             message: 'expected object, got array'
           },
           oneOf: {
-            type: 'invalid',
+            type: errorTypes.INVALID,
             message: 'expected string || number, got boolean'
           },
           shape: {
             string: {
-              type: 'invalid',
+              type: errorTypes.INVALID,
               message: 'expected string, got array'
             }
           }
@@ -563,29 +564,29 @@ describe('An Express payload validator is configured to expect', () => {
       });
       test('a string', () => {
         req.body = '';
-        expectedRes.errors.payload.message = 'expected object, got string';
+        expectedRes.errors[receivedPayloadKey].message = 'expected object, got string';
         confirmBomb();
       });
       test('a number', () => {
         req.body = 0;
-        expectedRes.errors.payload.message = 'expected object, got number';
+        expectedRes.errors[receivedPayloadKey].message = 'expected object, got number';
         confirmBomb();
       });
       test('an array', () => {
         req.body = [];
-        expectedRes.errors.payload.message = 'expected object, got array';
+        expectedRes.errors[receivedPayloadKey].message = 'expected object, got array';
         confirmBomb();
       });
       test('a boolean', () => {
         req.body = false;
-        expectedRes.errors.payload.message = 'expected object, got boolean';
+        expectedRes.errors[receivedPayloadKey].message = 'expected object, got boolean';
         confirmBomb();
       });
     });
   });
   describe('a required shape.', () => {
     beforeEach(() => {
-      validator = createExpressValidator(type.shape({
+      validator = createValidator(type.shape({
         string: type.string.isRequired,
         number: type.number,
         boolean: type.boolean,
@@ -614,20 +615,20 @@ describe('An Express payload validator is configured to expect', () => {
     describe('A "400 - Bad Request" response should be sent when the incoming payload is', () => {
       test('undefined', () => {
         req = {};
-        expectedRes.errors.payload.type = 'required';
-        expectedRes.errors.payload.message = 'expected object, got undefined';
+        expectedRes.errors[receivedPayloadKey].type = errorTypes.MISSING;
+        expectedRes.errors[receivedPayloadKey].message = 'expected object, got undefined';
         confirmBomb();
       });
       test('null', () => {
         req.body = null;
-        expectedRes.errors.payload.type = 'required';
-        expectedRes.errors.payload.message = 'expected object, got null';
+        expectedRes.errors[receivedPayloadKey].type = errorTypes.MISSING;
+        expectedRes.errors[receivedPayloadKey].message = 'expected object, got null';
         confirmBomb();
       });
       test('an object whose properties do not match the typeDefinitions', () => {
-        expectedRes.errors.payload = {
+        expectedRes.errors[receivedPayloadKey] = {
           string: {
-            type: 'required',
+            type: errorTypes.MISSING,
             message: 'expected string, got undefined'
           }
         };
@@ -635,22 +636,22 @@ describe('An Express payload validator is configured to expect', () => {
       });
       test('a string', () => {
         req.body = '';
-        expectedRes.errors.payload.message = 'expected object, got string';
+        expectedRes.errors[receivedPayloadKey].message = 'expected object, got string';
         confirmBomb();
       });
       test('a number', () => {
         req.body = 0;
-        expectedRes.errors.payload.message = 'expected object, got number';
+        expectedRes.errors[receivedPayloadKey].message = 'expected object, got number';
         confirmBomb();
       });
       test('an array', () => {
         req.body = [];
-        expectedRes.errors.payload.message = 'expected object, got array';
+        expectedRes.errors[receivedPayloadKey].message = 'expected object, got array';
         confirmBomb();
       });
       test('a boolean', () => {
         req.body = false;
-        expectedRes.errors.payload.message = 'expected object, got boolean';
+        expectedRes.errors[receivedPayloadKey].message = 'expected object, got boolean';
         confirmBomb();
       });
     });
@@ -658,7 +659,7 @@ describe('An Express payload validator is configured to expect', () => {
 
   describe('an optional array of optional strings.', () => {
     beforeEach(() => {
-      validator = createExpressValidator(type.arrayOf(type.string));
+      validator = createValidator(type.arrayOf(type.string));
     });
     describe('The next handler should be called when the incoming payload is', () => {
       test('an array of elements that match the type definition', () => {
@@ -682,55 +683,55 @@ describe('An Express payload validator is configured to expect', () => {
     describe('A "400 - Bad Request" response should be sent when the incoming payload is', () => {
       test('an array of elements that do not match the type definition', () => {
         req.body = [0, false, {}, []];
-        expectedRes.errors.payload = [
+        expectedRes.errors[receivedPayloadKey] = [
           {
             index: 0,
-            type: 'invalid',
+            type: errorTypes.INVALID,
             message: 'expected string, got number'
           },
           {
             index: 1,
             message: 'expected string, got boolean',
-            type: 'invalid'
+            type: errorTypes.INVALID
           },
           {
             index: 2,
             message: 'expected string, got object',
-            type: 'invalid'
+            type: errorTypes.INVALID
           },
           {
             index: 3,
             message: 'expected string, got array',
-            type: 'invalid'
+            type: errorTypes.INVALID
           }
         ];
         confirmBomb();
       });
       test('a string', () => {
         req.body = '';
-        expectedRes.errors.payload.message = 'expected array, got string';
+        expectedRes.errors[receivedPayloadKey].message = 'expected array, got string';
         confirmBomb();
       });
       test('a number', () => {
         req.body = 0;
-        expectedRes.errors.payload.message = 'expected array, got number';
+        expectedRes.errors[receivedPayloadKey].message = 'expected array, got number';
         confirmBomb();
       });
       test('an object', () => {
         req.body = {};
-        expectedRes.errors.payload.message = 'expected array, got object';
+        expectedRes.errors[receivedPayloadKey].message = 'expected array, got object';
         confirmBomb();
       });
       test('a boolean', () => {
         req.body = false;
-        expectedRes.errors.payload.message = 'expected array, got boolean';
+        expectedRes.errors[receivedPayloadKey].message = 'expected array, got boolean';
         confirmBomb();
       });
     });
   });
   describe('a required array of required strings.', () => {
     beforeEach(() => {
-      validator = createExpressValidator(type.arrayOf(type.string.isRequired).isRequired);
+      validator = createValidator(type.arrayOf(type.string.isRequired).isRequired);
     });
     describe('The next handler should be called when the incoming payload is', () => {
       test('an array of elements that match the type definition', () => {
@@ -746,15 +747,15 @@ describe('An Express payload validator is configured to expect', () => {
       test('an array of elements that do not match the type definition', () => {
         // eslint-disable-next-line no-sparse-arrays
         req.body = ['',, null];
-        expectedRes.errors.payload = [
+        expectedRes.errors[receivedPayloadKey] = [
           {
             index: 1,
-            type: 'required',
+            type: errorTypes.MISSING,
             message: 'expected string, got undefined'
           },
           {
             index: 2,
-            type: 'required',
+            type: errorTypes.MISSING,
             message: 'expected string, got null'
           }
         ];
@@ -762,34 +763,34 @@ describe('An Express payload validator is configured to expect', () => {
       });
       test('undefined', () => {
         req = {};
-        expectedRes.errors.payload.type = 'required';
-        expectedRes.errors.payload.message = 'expected array, got undefined';
+        expectedRes.errors[receivedPayloadKey].type = errorTypes.MISSING;
+        expectedRes.errors[receivedPayloadKey].message = 'expected array, got undefined';
         confirmBomb();
       });
       test('null', () => {
         req.body = null;
-        expectedRes.errors.payload.type = 'required';
-        expectedRes.errors.payload.message = 'expected array, got null';
+        expectedRes.errors[receivedPayloadKey].type = errorTypes.MISSING;
+        expectedRes.errors[receivedPayloadKey].message = 'expected array, got null';
         confirmBomb();
       });
       test('a string', () => {
         req.body = '';
-        expectedRes.errors.payload.message = 'expected array, got string';
+        expectedRes.errors[receivedPayloadKey].message = 'expected array, got string';
         confirmBomb();
       });
       test('a number', () => {
         req.body = 0;
-        expectedRes.errors.payload.message = 'expected array, got number';
+        expectedRes.errors[receivedPayloadKey].message = 'expected array, got number';
         confirmBomb();
       });
       test('an object', () => {
         req.body = {};
-        expectedRes.errors.payload.message = 'expected array, got object';
+        expectedRes.errors[receivedPayloadKey].message = 'expected array, got object';
         confirmBomb();
       });
       test('a boolean', () => {
         req.body = false;
-        expectedRes.errors.payload.message = 'expected array, got boolean';
+        expectedRes.errors[receivedPayloadKey].message = 'expected array, got boolean';
         confirmBomb();
       });
     });
@@ -797,7 +798,7 @@ describe('An Express payload validator is configured to expect', () => {
 
   describe('an optional oneOf string and number.', () => {
     beforeEach(() => {
-      validator = createExpressValidator(type.oneOf([type.string, type.number]));
+      validator = createValidator(type.oneOf([type.string, type.number]));
     });
     describe('The next handler should be called when the incoming payload is', () => {
       test('a string', () => {
@@ -820,24 +821,24 @@ describe('An Express payload validator is configured to expect', () => {
     describe('A "400 - Bad Request" response should be sent when the incoming payload is', () => {
       test('an array', () => {
         req.body = [];
-        expectedRes.errors.payload.message = 'expected string || number, got array';
+        expectedRes.errors[receivedPayloadKey].message = 'expected string || number, got array';
         confirmBomb();
       });
       test('an object', () => {
         req.body = {};
-        expectedRes.errors.payload.message = 'expected string || number, got object';
+        expectedRes.errors[receivedPayloadKey].message = 'expected string || number, got object';
         confirmBomb();
       });
       test('a boolean', () => {
         req.body = false;
-        expectedRes.errors.payload.message = 'expected string || number, got boolean';
+        expectedRes.errors[receivedPayloadKey].message = 'expected string || number, got boolean';
         confirmBomb();
       });
     });
   });
   describe('a required oneOf string and number.', () => {
     beforeEach(() => {
-      validator = createExpressValidator(type.oneOf([type.string, type.number]).isRequired);
+      validator = createValidator(type.oneOf([type.string, type.number]).isRequired);
     });
     describe('The next handler should be called when the incoming payload is', () => {
       test('a string', () => {
@@ -852,29 +853,29 @@ describe('An Express payload validator is configured to expect', () => {
     describe('A "400 - Bad Request" response should be sent when the incoming payload is', () => {
       test('undefined', () => {
         req = {};
-        expectedRes.errors.payload.type = 'required';
-        expectedRes.errors.payload.message = 'expected string || number, got undefined';
+        expectedRes.errors[receivedPayloadKey].type = errorTypes.MISSING;
+        expectedRes.errors[receivedPayloadKey].message = 'expected string || number, got undefined';
         confirmBomb();
       });
       test('null', () => {
         req.body = null;
-        expectedRes.errors.payload.type = 'required';
-        expectedRes.errors.payload.message = 'expected string || number, got null';
+        expectedRes.errors[receivedPayloadKey].type = errorTypes.MISSING;
+        expectedRes.errors[receivedPayloadKey].message = 'expected string || number, got null';
         confirmBomb();
       });
       test('an object', () => {
         req.body = {};
-        expectedRes.errors.payload.message = 'expected string || number, got object';
+        expectedRes.errors[receivedPayloadKey].message = 'expected string || number, got object';
         confirmBomb();
       });
       test('an array', () => {
         req.body = [];
-        expectedRes.errors.payload.message = 'expected string || number, got array';
+        expectedRes.errors[receivedPayloadKey].message = 'expected string || number, got array';
         confirmBomb();
       });
       test('a boolean', () => {
         req.body = false;
-        expectedRes.errors.payload.message = 'expected string || number, got boolean';
+        expectedRes.errors[receivedPayloadKey].message = 'expected string || number, got boolean';
         confirmBomb();
       });
     });
@@ -884,28 +885,28 @@ describe('An Express payload validator is configured to expect', () => {
 describe('Library throws errors when', () => {
   describe('type.shape', () => {
     test('is not called with an object literal', () => {
-      expect(() => createExpressValidator(type.shape([]))).toThrowErrorMatchingSnapshot();
+      expect(() => createValidator(type.shape([]))).toThrowErrorMatchingSnapshot();
     });
     test('has a property that is not a typeDefinition', () => {
-      validator = createExpressValidator(type.shape({ should: 'kaboom' }));
+      validator = createValidator(type.shape({ should: 'kaboom' }));
       req.body = { should: 'kaboom' };
       expect(() => validator(req, res, next)).toThrowErrorMatchingSnapshot();
     });
   });
   describe('type.oneOf', () => {
     test('is not called with an array', () => {
-      expect(() => createExpressValidator(type.oneOf(type.string))).toThrowErrorMatchingSnapshot();
+      expect(() => createValidator(type.oneOf(type.string))).toThrowErrorMatchingSnapshot();
     });
     test('is called with an array of less than 2 elements', () => {
-      expect(() => createExpressValidator(type.oneOf([type.string]))).toThrowErrorMatchingSnapshot();
+      expect(() => createValidator(type.oneOf([type.string]))).toThrowErrorMatchingSnapshot();
     });
     test('has an element that is not a typeDefinition', () => {
-      validator = createExpressValidator(type.oneOf(['should', 'kaboom' ]));
+      validator = createValidator(type.oneOf(['should', 'kaboom' ]));
       req.body = ['should', 'kaboom'];
       expect(() => validator(req, res, next)).toThrowErrorMatchingSnapshot();
     });
     test('has an element that is also a type.oneOf', () => {
-      validator = createExpressValidator(type.oneOf([
+      validator = createValidator(type.oneOf([
         type.string,
         type.oneOf([type.string, type.number])
       ]));
@@ -915,25 +916,25 @@ describe('Library throws errors when', () => {
   });
   describe('type.arrayOf', () => {
     test('is called with an object', () => {
-      expect(() => createExpressValidator(type.arrayOf({ kaboom: type.string }))).toThrowErrorMatchingSnapshot();
+      expect(() => createValidator(type.arrayOf({ kaboom: type.string }))).toThrowErrorMatchingSnapshot();
     });
     test('is called with an array', () => {
-      expect(() => createExpressValidator(type.arrayOf([type.string]))).toThrowErrorMatchingSnapshot();
+      expect(() => createValidator(type.arrayOf([type.string]))).toThrowErrorMatchingSnapshot();
     });
     test('is called with a string', () => {
-      expect(() => createExpressValidator(type.arrayOf('string'))).toThrowErrorMatchingSnapshot();
+      expect(() => createValidator(type.arrayOf('string'))).toThrowErrorMatchingSnapshot();
     });
     test('is called with a boolean', () => {
-      expect(() => createExpressValidator(type.arrayOf(true))).toThrowErrorMatchingSnapshot();
+      expect(() => createValidator(type.arrayOf(true))).toThrowErrorMatchingSnapshot();
     });
     test('is called with a number', () => {
-      expect(() => createExpressValidator(type.arrayOf(5))).toThrowErrorMatchingSnapshot();
+      expect(() => createValidator(type.arrayOf(5))).toThrowErrorMatchingSnapshot();
     });
     test('is called with a null', () => {
-      expect(() => createExpressValidator(type.arrayOf(null))).toThrowErrorMatchingSnapshot();
+      expect(() => createValidator(type.arrayOf(null))).toThrowErrorMatchingSnapshot();
     });
     test('is called with nothing', () => {
-      expect(() => createExpressValidator(type.arrayOf())).toThrowErrorMatchingSnapshot();
+      expect(() => createValidator(type.arrayOf())).toThrowErrorMatchingSnapshot();
     });
   });
 });

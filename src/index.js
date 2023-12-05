@@ -15,6 +15,9 @@ const createExpressValidator = (typeDefinitions) => (req, res, next) => createFr
 
 module.exports = {
   type,
-  createExpressValidator,
+  express: {
+    type,
+    createValidator: createExpressValidator
+  },
   createFrameworkValidator
 };

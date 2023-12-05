@@ -1,3 +1,4 @@
+const { receivedPayloadKey, errorTypes } = require('./constants');
 const exists = require('./exists');
 
 const getFinalizer = (expectedType, isRequired, errorKey) => ({
@@ -9,12 +10,12 @@ const getFinalizer = (expectedType, isRequired, errorKey) => ({
     message: `expected ${expectedType}, got ${receivedValueType}`
   };
   if (exists(receivedValue)) {
-    error.type = 'invalid';
+    error.type = errorTypes.INVALID;
   } else if (isRequired) {
-    error.type = 'required';
+    error.type = errorTypes.MISSING;
   }
   if (error.type) {
-    return errorKey === 'payload'
+    return errorKey === receivedPayloadKey
       ? { [errorKey]: { type: error.type, message: error.message } }
       : error;
   }
