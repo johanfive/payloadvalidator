@@ -1,4 +1,4 @@
-const { jsonType, errorMsg } = require('./constants');
+const { jsonType, errorMsg, receivedPayloadKey } = require('./constants');
 const deriveMeaningfulData = require('./deriveMeaningfulData');
 const exists = require('./exists');
 const getFinalizer = require('./getFinalizer');
@@ -23,7 +23,7 @@ const shape = (typeDefinitions) => {
         }
       });
       if (Object.keys(errors).length > 0) {
-        return (errorKey === 'payload')
+        return (errorKey === receivedPayloadKey)
           ? { [errorKey]: errors }
           : { key: errorKey, objectErrors: errors };
       }

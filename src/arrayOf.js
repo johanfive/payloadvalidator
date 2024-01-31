@@ -1,4 +1,4 @@
-const { jsonType } = require('./constants');
+const { jsonType, receivedPayloadKey } = require('./constants');
 const deriveMeaningfulData = require('./deriveMeaningfulData');
 const getFinalizer = require('./getFinalizer');
 const getPreciseType = require('./getPreciseType');
@@ -39,11 +39,12 @@ const arrayOf = (validator) => {
       for (let i = 0; i < receivedValue.length; i++) {
         const e = validator(receivedValue, i);
         if (e) {
-          errors.push(e.arrayErrors || e.objectErrors || { index: e.key, type: e.type, message: e.message });
+          const error = e.arrayErrors || e.objectErrors || { type: e.type, message: e.message };
+          errors.push({ index: e.key, ...error });
         }
       }
       if (errors.length > 0) {
-        return (errorKey === 'payload')
+        return (errorKey === receivedPayloadKey)
           ? { [errorKey]: errors }
           : { key: errorKey, arrayErrors: errors };
       }

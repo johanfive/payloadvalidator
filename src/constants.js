@@ -16,5 +16,10 @@ module.exports = {
     shape: {
       badConfig: 'Unclear configuration: try something like "type.shape({ prop: type.string }) instead'
     }
+  },
+  receivedPayloadKey: 'receivedPayload',
+  errorTypes: {
+    MISSING: 'missing',
+    INVALID: 'invalid'
   }
 };
