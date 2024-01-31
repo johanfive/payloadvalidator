@@ -8,42 +8,40 @@ But first an foremost, as API creators, we want to provide the __consumers of ou
 
 ```json
 {
-  "code": 400,
+  "status": 400,
   "message": "Bad request",
   "errors": {
-    "receivedPayload": {
-      "firstName": {
+    "firstName": {
+      "type": "missing",
+      "message": "expected string, got undefined"
+    },
+    "lastName": {
+      "type": "invalid",
+      "message": "expected string, got number"
+    },
+    "devices": [
+      {
+        "index": 0,
         "type": "missing",
-        "message": "expected string, got undefined"
+        "message": "expected object, got undefined"
       },
-      "lastName": {
-        "type": "invalid",
-        "message": "expected string, got number"
-      },
-      "devices": [
-        {
-          "index": 0,
-          "type": "missing",
-          "message": "expected object, got undefined"
-        },
-        {
-          "index": 2,
-          "notificationPriority": {
-            "type": "invalid",
-            "message": "expected number, got string"
-          }
+      {
+        "index": 2,
+        "notificationPriority": {
+          "type": "invalid",
+          "message": "expected number, got string"
         }
-      ],
-      "skills": {
-        "canCook": {
-          "type": "missing",
-          "message": "expected boolean, got undefined"
-        }
-      },
-      "weakApi": {
-        "type": "invalid",
-        "message": "expected string || number || shape, got object"
       }
+    ],
+    "skills": {
+      "canCook": {
+        "type": "missing",
+        "message": "expected boolean, got undefined"
+      }
+    },
+    "weakApi": {
+      "type": "invalid",
+      "message": "expected string || number || shape, got object"
     }
   }
 }
@@ -221,7 +219,7 @@ So here is how `createExpressValidator` is made under the hood:
 const createExpressValidator = (typeDefinitions) => (req, res, next) => createFrameworkValidator({
   validate: typeDefinitions,
   payload: req.body,
-  handleBadRequest: (error) => res.status(error.code).send(error),
+  handleBadRequest: (error) => res.status(error.status).send(error),
   handleValidRequest: next,
 });
 ```
@@ -243,7 +241,7 @@ const makeValidator = (typeDefinitions) => {
       validate: typeDefinitions,
       payload: todo, // retrieve the payload from the request the way your framework dictates
       handleBadRequest: (error) => {
-        // const { code, message, errors } = error;
+        // const { status, message, errors } = error;
         todo; // send response and end the request the way your framework dictates
       }, // called if payload is invalid
       handleValidRequest: todo, // the next middleware or route handler to be called if a payload is valid

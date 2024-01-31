@@ -1,5 +1,5 @@
 const { createValidator, type } = require('.').express;
-const { receivedPayloadKey, errorTypes } = require('./constants');
+const { errorTypes } = require('./constants');
 
 let req;
 let next;
@@ -16,12 +16,10 @@ beforeEach(() => {
   res = { send, status };
   validator = null;
   expectedRes = {
-    code: 400,
+    status: 400,
     errors: {
-      [receivedPayloadKey]: {
-        type: errorTypes.INVALID,
-        message: ''
-      }
+      type: errorTypes.INVALID,
+      message: ''
     },
     message: 'Bad request'
   };
@@ -63,21 +61,21 @@ describe('An Express payload validator is configured to expect', () => {
     describe('A "400 - Bad Request" response should be sent when the incoming payload is', () => {
       test('a number', () => {
         req.body = 0;
-        expectedRes.errors[receivedPayloadKey].message = 'expected string, got number';
+        expectedRes.errors.message = 'expected string, got number';
         confirmBomb();
       });
       test('a boolean', () => {
         req.body = false;
-        expectedRes.errors[receivedPayloadKey].message = 'expected string, got boolean';
+        expectedRes.errors.message = 'expected string, got boolean';
         confirmBomb();
       });
       test('an object', () => {
-        expectedRes.errors[receivedPayloadKey].message = 'expected string, got object';
+        expectedRes.errors.message = 'expected string, got object';
         confirmBomb();
       });
       test('an array', () => {
         req.body = [];
-        expectedRes.errors[receivedPayloadKey].message = 'expected string, got array';
+        expectedRes.errors.message = 'expected string, got array';
         confirmBomb();
       });
     });
@@ -95,33 +93,33 @@ describe('An Express payload validator is configured to expect', () => {
     describe('A "400 - Bad Request" response should be sent when the incoming payload is', () => {
       test('undefined', () => {
         req = {};
-        expectedRes.errors[receivedPayloadKey].type = errorTypes.MISSING;
-        expectedRes.errors[receivedPayloadKey].message = 'expected string, got undefined';
+        expectedRes.errors.type = errorTypes.MISSING;
+        expectedRes.errors.message = 'expected string, got undefined';
         confirmBomb();
       });
       test('null', () => {
         req.body = null;
-        expectedRes.errors[receivedPayloadKey].type = errorTypes.MISSING;
-        expectedRes.errors[receivedPayloadKey].message = 'expected string, got null';
+        expectedRes.errors.type = errorTypes.MISSING;
+        expectedRes.errors.message = 'expected string, got null';
         confirmBomb();
       });
       test('a number', () => {
         req.body = 0;
-        expectedRes.errors[receivedPayloadKey].message = 'expected string, got number';
+        expectedRes.errors.message = 'expected string, got number';
         confirmBomb();
       });
       test('a boolean', () => {
         req.body = false;
-        expectedRes.errors[receivedPayloadKey].message = 'expected string, got boolean';
+        expectedRes.errors.message = 'expected string, got boolean';
         confirmBomb();
       });
       test('an object', () => {
-        expectedRes.errors[receivedPayloadKey].message = 'expected string, got object';
+        expectedRes.errors.message = 'expected string, got object';
         confirmBomb();
       });
       test('an array', () => {
         req.body = [];
-        expectedRes.errors[receivedPayloadKey].message = 'expected string, got array';
+        expectedRes.errors.message = 'expected string, got array';
         confirmBomb();
       });
     });
@@ -148,21 +146,21 @@ describe('An Express payload validator is configured to expect', () => {
     describe('A "400 - Bad Request" response should be sent when the incoming payload is', () => {
       test('a string', () => {
         req.body = '';
-        expectedRes.errors[receivedPayloadKey].message = 'expected number, got string';
+        expectedRes.errors.message = 'expected number, got string';
         confirmBomb();
       });
       test('a boolean', () => {
         req.body = false;
-        expectedRes.errors[receivedPayloadKey].message = 'expected number, got boolean';
+        expectedRes.errors.message = 'expected number, got boolean';
         confirmBomb();
       });
       test('an object', () => {
-        expectedRes.errors[receivedPayloadKey].message = 'expected number, got object';
+        expectedRes.errors.message = 'expected number, got object';
         confirmBomb();
       });
       test('an array', () => {
         req.body = [];
-        expectedRes.errors[receivedPayloadKey].message = 'expected number, got array';
+        expectedRes.errors.message = 'expected number, got array';
         confirmBomb();
       });
     });
@@ -180,33 +178,33 @@ describe('An Express payload validator is configured to expect', () => {
     describe('A "400 - Bad Request" response should be sent when the incoming payload is', () => {
       test('undefined', () => {
         req = {};
-        expectedRes.errors[receivedPayloadKey].type = errorTypes.MISSING;
-        expectedRes.errors[receivedPayloadKey].message = 'expected number, got undefined';
+        expectedRes.errors.type = errorTypes.MISSING;
+        expectedRes.errors.message = 'expected number, got undefined';
         confirmBomb();
       });
       test('null', () => {
         req.body = null;
-        expectedRes.errors[receivedPayloadKey].type = errorTypes.MISSING;
-        expectedRes.errors[receivedPayloadKey].message = 'expected number, got null';
+        expectedRes.errors.type = errorTypes.MISSING;
+        expectedRes.errors.message = 'expected number, got null';
         confirmBomb();
       });
       test('a string', () => {
         req.body = '';
-        expectedRes.errors[receivedPayloadKey].message = 'expected number, got string';
+        expectedRes.errors.message = 'expected number, got string';
         confirmBomb();
       });
       test('a boolean', () => {
         req.body = false;
-        expectedRes.errors[receivedPayloadKey].message = 'expected number, got boolean';
+        expectedRes.errors.message = 'expected number, got boolean';
         confirmBomb();
       });
       test('an object', () => {
-        expectedRes.errors[receivedPayloadKey].message = 'expected number, got object';
+        expectedRes.errors.message = 'expected number, got object';
         confirmBomb();
       });
       test('an array', () => {
         req.body = [];
-        expectedRes.errors[receivedPayloadKey].message = 'expected number, got array';
+        expectedRes.errors.message = 'expected number, got array';
         confirmBomb();
       });
     });
@@ -233,21 +231,21 @@ describe('An Express payload validator is configured to expect', () => {
     describe('A "400 - Bad Request" response should be sent when the incoming payload is', () => {
       test('a string', () => {
         req.body = '';
-        expectedRes.errors[receivedPayloadKey].message = 'expected boolean, got string';
+        expectedRes.errors.message = 'expected boolean, got string';
         confirmBomb();
       });
       test('a number', () => {
         req.body = 0;
-        expectedRes.errors[receivedPayloadKey].message = 'expected boolean, got number';
+        expectedRes.errors.message = 'expected boolean, got number';
         confirmBomb();
       });
       test('an object', () => {
-        expectedRes.errors[receivedPayloadKey].message = 'expected boolean, got object';
+        expectedRes.errors.message = 'expected boolean, got object';
         confirmBomb();
       });
       test('an array', () => {
         req.body = [];
-        expectedRes.errors[receivedPayloadKey].message = 'expected boolean, got array';
+        expectedRes.errors.message = 'expected boolean, got array';
         confirmBomb();
       });
     });
@@ -265,33 +263,33 @@ describe('An Express payload validator is configured to expect', () => {
     describe('A "400 - Bad Request" response should be sent when the incoming payload is', () => {
       test('undefined', () => {
         req = {};
-        expectedRes.errors[receivedPayloadKey].type = errorTypes.MISSING;
-        expectedRes.errors[receivedPayloadKey].message = 'expected boolean, got undefined';
+        expectedRes.errors.type = errorTypes.MISSING;
+        expectedRes.errors.message = 'expected boolean, got undefined';
         confirmBomb();
       });
       test('null', () => {
         req.body = null;
-        expectedRes.errors[receivedPayloadKey].type = errorTypes.MISSING;
-        expectedRes.errors[receivedPayloadKey].message = 'expected boolean, got null';
+        expectedRes.errors.type = errorTypes.MISSING;
+        expectedRes.errors.message = 'expected boolean, got null';
         confirmBomb();
       });
       test('a string', () => {
         req.body = '';
-        expectedRes.errors[receivedPayloadKey].message = 'expected boolean, got string';
+        expectedRes.errors.message = 'expected boolean, got string';
         confirmBomb();
       });
       test('a number', () => {
         req.body = 0;
-        expectedRes.errors[receivedPayloadKey].message = 'expected boolean, got number';
+        expectedRes.errors.message = 'expected boolean, got number';
         confirmBomb();
       });
       test('an object', () => {
-        expectedRes.errors[receivedPayloadKey].message = 'expected boolean, got object';
+        expectedRes.errors.message = 'expected boolean, got object';
         confirmBomb();
       });
       test('an array', () => {
         req.body = [];
-        expectedRes.errors[receivedPayloadKey].message = 'expected boolean, got array';
+        expectedRes.errors.message = 'expected boolean, got array';
         confirmBomb();
       });
     });
@@ -318,21 +316,21 @@ describe('An Express payload validator is configured to expect', () => {
     describe('A "400 - Bad Request" response should be sent when the incoming payload is', () => {
       test('a string', () => {
         req.body = '';
-        expectedRes.errors[receivedPayloadKey].message = 'expected array, got string';
+        expectedRes.errors.message = 'expected array, got string';
         confirmBomb();
       });
       test('a number', () => {
         req.body = 0;
-        expectedRes.errors[receivedPayloadKey].message = 'expected array, got number';
+        expectedRes.errors.message = 'expected array, got number';
         confirmBomb();
       });
       test('an object', () => {
-        expectedRes.errors[receivedPayloadKey].message = 'expected array, got object';
+        expectedRes.errors.message = 'expected array, got object';
         confirmBomb();
       });
       test('a boolean', () => {
         req.body = false;
-        expectedRes.errors[receivedPayloadKey].message = 'expected array, got boolean';
+        expectedRes.errors.message = 'expected array, got boolean';
         confirmBomb();
       });
     });
@@ -350,33 +348,33 @@ describe('An Express payload validator is configured to expect', () => {
     describe('A "400 - Bad Request" response should be sent when the incoming payload is', () => {
       test('undefined', () => {
         req = {};
-        expectedRes.errors[receivedPayloadKey].type = errorTypes.MISSING;
-        expectedRes.errors[receivedPayloadKey].message = 'expected array, got undefined';
+        expectedRes.errors.type = errorTypes.MISSING;
+        expectedRes.errors.message = 'expected array, got undefined';
         confirmBomb();
       });
       test('null', () => {
         req.body = null;
-        expectedRes.errors[receivedPayloadKey].type = errorTypes.MISSING;
-        expectedRes.errors[receivedPayloadKey].message = 'expected array, got null';
+        expectedRes.errors.type = errorTypes.MISSING;
+        expectedRes.errors.message = 'expected array, got null';
         confirmBomb();
       });
       test('a string', () => {
         req.body = '';
-        expectedRes.errors[receivedPayloadKey].message = 'expected array, got string';
+        expectedRes.errors.message = 'expected array, got string';
         confirmBomb();
       });
       test('a number', () => {
         req.body = 0;
-        expectedRes.errors[receivedPayloadKey].message = 'expected array, got number';
+        expectedRes.errors.message = 'expected array, got number';
         confirmBomb();
       });
       test('an object', () => {
-        expectedRes.errors[receivedPayloadKey].message = 'expected array, got object';
+        expectedRes.errors.message = 'expected array, got object';
         confirmBomb();
       });
       test('a boolean', () => {
         req.body = false;
-        expectedRes.errors[receivedPayloadKey].message = 'expected array, got boolean';
+        expectedRes.errors.message = 'expected array, got boolean';
         confirmBomb();
       });
     });
@@ -402,22 +400,22 @@ describe('An Express payload validator is configured to expect', () => {
     describe('A "400 - Bad Request" response should be sent when the incoming payload is', () => {
       test('a string', () => {
         req.body = '';
-        expectedRes.errors[receivedPayloadKey].message = 'expected object, got string';
+        expectedRes.errors.message = 'expected object, got string';
         confirmBomb();
       });
       test('a number', () => {
         req.body = 0;
-        expectedRes.errors[receivedPayloadKey].message = 'expected object, got number';
+        expectedRes.errors.message = 'expected object, got number';
         confirmBomb();
       });
       test('an array', () => {
         req.body = [];
-        expectedRes.errors[receivedPayloadKey].message = 'expected object, got array';
+        expectedRes.errors.message = 'expected object, got array';
         confirmBomb();
       });
       test('a boolean', () => {
         req.body = false;
-        expectedRes.errors[receivedPayloadKey].message = 'expected object, got boolean';
+        expectedRes.errors.message = 'expected object, got boolean';
         confirmBomb();
       });
     });
@@ -434,34 +432,34 @@ describe('An Express payload validator is configured to expect', () => {
     describe('A "400 - Bad Request" response should be sent when the incoming payload is', () => {
       test('undefined', () => {
         req = {};
-        expectedRes.errors[receivedPayloadKey].type = errorTypes.MISSING;
-        expectedRes.errors[receivedPayloadKey].message = 'expected object, got undefined';
+        expectedRes.errors.type = errorTypes.MISSING;
+        expectedRes.errors.message = 'expected object, got undefined';
         confirmBomb();
       });
       test('null', () => {
         req.body = null;
-        expectedRes.errors[receivedPayloadKey].type = errorTypes.MISSING;
-        expectedRes.errors[receivedPayloadKey].message = 'expected object, got null';
+        expectedRes.errors.type = errorTypes.MISSING;
+        expectedRes.errors.message = 'expected object, got null';
         confirmBomb();
       });
       test('a string', () => {
         req.body = '';
-        expectedRes.errors[receivedPayloadKey].message = 'expected object, got string';
+        expectedRes.errors.message = 'expected object, got string';
         confirmBomb();
       });
       test('a number', () => {
         req.body = 0;
-        expectedRes.errors[receivedPayloadKey].message = 'expected object, got number';
+        expectedRes.errors.message = 'expected object, got number';
         confirmBomb();
       });
       test('an array', () => {
         req.body = [];
-        expectedRes.errors[receivedPayloadKey].message = 'expected object, got array';
+        expectedRes.errors.message = 'expected object, got array';
         confirmBomb();
       });
       test('a boolean', () => {
         req.body = false;
-        expectedRes.errors[receivedPayloadKey].message = 'expected object, got boolean';
+        expectedRes.errors.message = 'expected object, got boolean';
         confirmBomb();
       });
     });
@@ -506,7 +504,7 @@ describe('An Express payload validator is configured to expect', () => {
           oneOf: false,
           shape: { string: [] }
         };
-        expectedRes.errors[receivedPayloadKey] = {
+        expectedRes.errors = {
           string: {
             type: errorTypes.MISSING,
             message: 'expected string, got undefined'
@@ -564,22 +562,22 @@ describe('An Express payload validator is configured to expect', () => {
       });
       test('a string', () => {
         req.body = '';
-        expectedRes.errors[receivedPayloadKey].message = 'expected object, got string';
+        expectedRes.errors.message = 'expected object, got string';
         confirmBomb();
       });
       test('a number', () => {
         req.body = 0;
-        expectedRes.errors[receivedPayloadKey].message = 'expected object, got number';
+        expectedRes.errors.message = 'expected object, got number';
         confirmBomb();
       });
       test('an array', () => {
         req.body = [];
-        expectedRes.errors[receivedPayloadKey].message = 'expected object, got array';
+        expectedRes.errors.message = 'expected object, got array';
         confirmBomb();
       });
       test('a boolean', () => {
         req.body = false;
-        expectedRes.errors[receivedPayloadKey].message = 'expected object, got boolean';
+        expectedRes.errors.message = 'expected object, got boolean';
         confirmBomb();
       });
     });
@@ -615,18 +613,18 @@ describe('An Express payload validator is configured to expect', () => {
     describe('A "400 - Bad Request" response should be sent when the incoming payload is', () => {
       test('undefined', () => {
         req = {};
-        expectedRes.errors[receivedPayloadKey].type = errorTypes.MISSING;
-        expectedRes.errors[receivedPayloadKey].message = 'expected object, got undefined';
+        expectedRes.errors.type = errorTypes.MISSING;
+        expectedRes.errors.message = 'expected object, got undefined';
         confirmBomb();
       });
       test('null', () => {
         req.body = null;
-        expectedRes.errors[receivedPayloadKey].type = errorTypes.MISSING;
-        expectedRes.errors[receivedPayloadKey].message = 'expected object, got null';
+        expectedRes.errors.type = errorTypes.MISSING;
+        expectedRes.errors.message = 'expected object, got null';
         confirmBomb();
       });
       test('an object whose properties do not match the typeDefinitions', () => {
-        expectedRes.errors[receivedPayloadKey] = {
+        expectedRes.errors = {
           string: {
             type: errorTypes.MISSING,
             message: 'expected string, got undefined'
@@ -636,22 +634,22 @@ describe('An Express payload validator is configured to expect', () => {
       });
       test('a string', () => {
         req.body = '';
-        expectedRes.errors[receivedPayloadKey].message = 'expected object, got string';
+        expectedRes.errors.message = 'expected object, got string';
         confirmBomb();
       });
       test('a number', () => {
         req.body = 0;
-        expectedRes.errors[receivedPayloadKey].message = 'expected object, got number';
+        expectedRes.errors.message = 'expected object, got number';
         confirmBomb();
       });
       test('an array', () => {
         req.body = [];
-        expectedRes.errors[receivedPayloadKey].message = 'expected object, got array';
+        expectedRes.errors.message = 'expected object, got array';
         confirmBomb();
       });
       test('a boolean', () => {
         req.body = false;
-        expectedRes.errors[receivedPayloadKey].message = 'expected object, got boolean';
+        expectedRes.errors.message = 'expected object, got boolean';
         confirmBomb();
       });
     });
@@ -683,7 +681,7 @@ describe('An Express payload validator is configured to expect', () => {
     describe('A "400 - Bad Request" response should be sent when the incoming payload is', () => {
       test('an array of elements that do not match the type definition', () => {
         req.body = [0, false, {}, []];
-        expectedRes.errors[receivedPayloadKey] = [
+        expectedRes.errors = [
           {
             index: 0,
             type: errorTypes.INVALID,
@@ -709,22 +707,22 @@ describe('An Express payload validator is configured to expect', () => {
       });
       test('a string', () => {
         req.body = '';
-        expectedRes.errors[receivedPayloadKey].message = 'expected array, got string';
+        expectedRes.errors.message = 'expected array, got string';
         confirmBomb();
       });
       test('a number', () => {
         req.body = 0;
-        expectedRes.errors[receivedPayloadKey].message = 'expected array, got number';
+        expectedRes.errors.message = 'expected array, got number';
         confirmBomb();
       });
       test('an object', () => {
         req.body = {};
-        expectedRes.errors[receivedPayloadKey].message = 'expected array, got object';
+        expectedRes.errors.message = 'expected array, got object';
         confirmBomb();
       });
       test('a boolean', () => {
         req.body = false;
-        expectedRes.errors[receivedPayloadKey].message = 'expected array, got boolean';
+        expectedRes.errors.message = 'expected array, got boolean';
         confirmBomb();
       });
     });
@@ -747,7 +745,7 @@ describe('An Express payload validator is configured to expect', () => {
       test('an array of elements that do not match the type definition', () => {
         // eslint-disable-next-line no-sparse-arrays
         req.body = ['',, null];
-        expectedRes.errors[receivedPayloadKey] = [
+        expectedRes.errors = [
           {
             index: 1,
             type: errorTypes.MISSING,
@@ -763,34 +761,34 @@ describe('An Express payload validator is configured to expect', () => {
       });
       test('undefined', () => {
         req = {};
-        expectedRes.errors[receivedPayloadKey].type = errorTypes.MISSING;
-        expectedRes.errors[receivedPayloadKey].message = 'expected array, got undefined';
+        expectedRes.errors.type = errorTypes.MISSING;
+        expectedRes.errors.message = 'expected array, got undefined';
         confirmBomb();
       });
       test('null', () => {
         req.body = null;
-        expectedRes.errors[receivedPayloadKey].type = errorTypes.MISSING;
-        expectedRes.errors[receivedPayloadKey].message = 'expected array, got null';
+        expectedRes.errors.type = errorTypes.MISSING;
+        expectedRes.errors.message = 'expected array, got null';
         confirmBomb();
       });
       test('a string', () => {
         req.body = '';
-        expectedRes.errors[receivedPayloadKey].message = 'expected array, got string';
+        expectedRes.errors.message = 'expected array, got string';
         confirmBomb();
       });
       test('a number', () => {
         req.body = 0;
-        expectedRes.errors[receivedPayloadKey].message = 'expected array, got number';
+        expectedRes.errors.message = 'expected array, got number';
         confirmBomb();
       });
       test('an object', () => {
         req.body = {};
-        expectedRes.errors[receivedPayloadKey].message = 'expected array, got object';
+        expectedRes.errors.message = 'expected array, got object';
         confirmBomb();
       });
       test('a boolean', () => {
         req.body = false;
-        expectedRes.errors[receivedPayloadKey].message = 'expected array, got boolean';
+        expectedRes.errors.message = 'expected array, got boolean';
         confirmBomb();
       });
     });
@@ -821,17 +819,17 @@ describe('An Express payload validator is configured to expect', () => {
     describe('A "400 - Bad Request" response should be sent when the incoming payload is', () => {
       test('an array', () => {
         req.body = [];
-        expectedRes.errors[receivedPayloadKey].message = 'expected string || number, got array';
+        expectedRes.errors.message = 'expected string || number, got array';
         confirmBomb();
       });
       test('an object', () => {
         req.body = {};
-        expectedRes.errors[receivedPayloadKey].message = 'expected string || number, got object';
+        expectedRes.errors.message = 'expected string || number, got object';
         confirmBomb();
       });
       test('a boolean', () => {
         req.body = false;
-        expectedRes.errors[receivedPayloadKey].message = 'expected string || number, got boolean';
+        expectedRes.errors.message = 'expected string || number, got boolean';
         confirmBomb();
       });
     });
@@ -853,29 +851,29 @@ describe('An Express payload validator is configured to expect', () => {
     describe('A "400 - Bad Request" response should be sent when the incoming payload is', () => {
       test('undefined', () => {
         req = {};
-        expectedRes.errors[receivedPayloadKey].type = errorTypes.MISSING;
-        expectedRes.errors[receivedPayloadKey].message = 'expected string || number, got undefined';
+        expectedRes.errors.type = errorTypes.MISSING;
+        expectedRes.errors.message = 'expected string || number, got undefined';
         confirmBomb();
       });
       test('null', () => {
         req.body = null;
-        expectedRes.errors[receivedPayloadKey].type = errorTypes.MISSING;
-        expectedRes.errors[receivedPayloadKey].message = 'expected string || number, got null';
+        expectedRes.errors.type = errorTypes.MISSING;
+        expectedRes.errors.message = 'expected string || number, got null';
         confirmBomb();
       });
       test('an object', () => {
         req.body = {};
-        expectedRes.errors[receivedPayloadKey].message = 'expected string || number, got object';
+        expectedRes.errors.message = 'expected string || number, got object';
         confirmBomb();
       });
       test('an array', () => {
         req.body = [];
-        expectedRes.errors[receivedPayloadKey].message = 'expected string || number, got array';
+        expectedRes.errors.message = 'expected string || number, got array';
         confirmBomb();
       });
       test('a boolean', () => {
         req.body = false;
-        expectedRes.errors[receivedPayloadKey].message = 'expected string || number, got boolean';
+        expectedRes.errors.message = 'expected string || number, got boolean';
         confirmBomb();
       });
     });
